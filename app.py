@@ -39,6 +39,14 @@ if uploaded_file:
 
     for i, issue in enumerate(issues):
         with st.expander(f"{issue['issue_type']} — {issue['column']}"):
+
+            # Show who detected it
+            detected_by = issue.get("detected_by", "Unknown")
+            if detected_by == "Pandas":
+                st.info(f"🐼 Detected by: Pandas — scanned every row")
+            else:
+                st.success(f"🤖 Detected by: Claude AI — semantic understanding")
+
             st.write(f"**Affected rows:** {issue['affected_rows']}")
 
             # Show per-row fix status
