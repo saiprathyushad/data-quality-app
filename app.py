@@ -52,6 +52,8 @@ if uploaded_file:
             # Show per-row fix status
             fix_details = []
             for j, orig in enumerate(issue['original_values']):
+                if orig is None:
+                    continue
                 fixed_value, can_fix = auto_fix_value(
                     issue['issue_type'],
                     issue['column'],
@@ -63,9 +65,12 @@ if uploaded_file:
                 else:
                     fix_details.append(f"`{orig}` → ⚠️ manual review needed")
 
-            st.write("**Fix details:**")
-            for detail in fix_details:
-                st.write(detail)
+            if fix_details:
+                st.write("**Fix details:**")
+                for detail in fix_details:
+                    st.write(detail)
+            else:
+                st.write("**Fix details:** No automatic fix available — manual review needed")
 
             st.write(f"**Confidence:** {int(issue['confidence'] * 100)}%")
 
